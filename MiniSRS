@@ -1,0 +1,96 @@
+# Character Movement System
+
+## 1. System Overview (Mini SRS)
+
+### 1.1 Purpose
+The Character Movement SYstem provides smooth and consistent player mottion within the game world 
+using Unity's **CharacterController** component. It enables grounded and aerial movement with
+adjustable speed, gravity, and jump force, ensuring predictable and responsive control for the player.
+
+### 1.2 Scope
+This system handles:
+- Player walking and running movement
+- Gravity simulation and jumping
+- Camera-relative input
+- Ground detectino for jump reset
+
+Out of Scope:
+- Animation blending (handled by the Animation System)
+- Physics interactions (handled by Physics System or Rigidbody scripts)
+- Networking or multiplayer synchronization
+
+### 1.3 Interfaces
+- **Unity Input System / Legacy Input** - reads movement and jump input.
+- **Camera Controller System** - provides camera orientaion for camera-realative movement.
+- **Animator Controller (optional)** - receives movement parameters for animation blending\
+
+### 1.4 Functional Requirements
+| Id | Requirement | Type |
+|----|-------------|------|
+| R1 | The system shall allow the player to move using WASD or arrow kes. | Functional |
+| R2 | The system shall apply gravity to the player when not grounded. | Functional |
+| R3 | The system shall allow the player to jump when grounded. | Functional |
+| R4 | The system shall adjust movement direction relative to camera facing direction. | Functional |
+| R5 | The system shall expose adjustable speed and jump height values in the UnityInspector. | Nonfunctional |
+| R6 | The system shall detect ground contact to control jumping and gravity reset. | Functinoal |
+
+### 1.5 Nonfunctional Requirements
+- Movement should feel smooth and responsive
+- The system must maintain a stable frame rate (<= 1ms update time).
+- Must not require Rigidbody or external physics forces
+- Easy to integrate into any character prefab with a CharacterController component.
+
+### 1.6 Dependencies
+- Unity Engine
+- CharacterController component
+- Optional: Cinemachine or CameraController script for camera directino
+
+### 1.7 Assumptions
+- Gravity is manually applied (not handled by Unity's physics).
+- The CharacterController is properly sized for the player model.
+- Scene include a tagged "Ground" or collision layer for ground detection
+
+---
+
+## System Design (SDD) 
+
+### 2.1 Architecture Overview
+The Character Movement System is composed of three key components:
+1. **Input Handler** - reads and stores player input vectors.
+2. **Player Motor** - handles movement, gravity, and jumping logic.
+3. **CharacterController** - Unity-provided capsule collider that moves based on 
+physics-safe motion
+
+### 2.2 Key Classes or Components
+| Class | Description |
+|-------|-------------|
+| 'Player Movement' | Main controller script managing input, gravity, and jump. |
+| 'InputHandler' *(optional)* | Isolates input logic if using the new Input System. |
+| 'CharacterController' | Unity component for collision-safe movement. | 
+
+### 2.3 Data Fields (PlayerMovement)
+| Variable | Type | Description |
+|----------|------|-------------|
+| 'moveSpeed' | float | Horizontal movement speed. |
+| 'gravity' | float | Downward force applied each frame. |
+| 'jumpHeight' | float | Vertical force for jump. |
+| 'velocity' | Vector3 | Stores current motion velocity. |
+| 'controller' | CharacterController | Unity component reference. |
+| 'isGrounded' | bool | True if touching ground surface. |
+
+### 2.5 Design Decistions
+- **CharacterController chosen** for predictable collision and smooth movement without
+needing physics simulation.
+- Manual gravity control ensures consistent jump height across different frame rates.
+- Camera-relative movement provides intuitive player control in both 3rd and 1st person.
+
+---
+
+# 3. Testing Plan (Outline)
+| Test ID | Description | Expected Result |
+| T1 | Press W key | Player moves forward relative to camera. |
+| T2 | Release movement key | Player stops immediately. |
+| T3 | Press Space when grounded | Player jumps upward. | 
+| T4 | Hold Space mid-air | NO second jump triggered. |
+
+
