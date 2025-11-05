@@ -22,7 +22,7 @@ Out of Scope:
 ### 1.3 Interfaces
 - **Unity Input System / Legacy Input** - reads movement and jump input.
 - **Camera Controller System** - provides camera orientaion for camera-realative movement.
-- **Animator Controller (optional)** - receives movement parameters for animation blending\
+- **Animator Controller (optional)** - receives movement parameters for animation blending
 
 ### 1.4 Functional Requirements
 | Id | Requirement | Type |
