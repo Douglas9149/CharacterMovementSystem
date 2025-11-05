@@ -86,11 +86,32 @@ needing physics simulation.
 
 ---
 
-# 3. Testing Plan (Outline)
+## 3. Testing Plan (Outline)
 | Test ID | Description | Expected Result |
 | T1 | Press W key | Player moves forward relative to camera. |
 | T2 | Release movement key | Player stops immediately. |
 | T3 | Press Space when grounded | Player jumps upward. | 
 | T4 | Hold Space mid-air | NO second jump triggered. |
+| T5 | Step off ledge | Player falls smoothly with gravity applied. |
+| T6 | Land on ground | 'isGrounded' becomes true. gravity resets. |
+
+### Performance Test
+- Ensure Update () loop executes in <1ms per frame.
+- Character remains stable on slopes < 45degrees.
+
+---
+
+## 4. Future Expansion
+- Sprinting and crouching states
+- Integration with animatino parameters (`Speed`, `IsGrounded`)
+- Air control / double jump
+- Surface-based movement sounds
+
+---
+
+## 5. Version Info
+**Author:** Anthony Douglas
+**Version:** 1.0
+**Date:** 11/04/2024
 
 
